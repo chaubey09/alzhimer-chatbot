@@ -13,7 +13,7 @@ if "chat_history" not in st.session_state or not isinstance(st.session_state.cha
     st.session_state.chat_history = []
 
 # Title
-st.title("🧠 Alzheimer's Detection Chatbot")
+st.title("🧠 Alzheimer's Detection Chatbot by Anmol 24MAI0111")
 
 # Image uploader
 uploaded_image = st.file_uploader("Upload an MRI Image (JPG/PNG)", type=["jpg", "jpeg", "png"])
