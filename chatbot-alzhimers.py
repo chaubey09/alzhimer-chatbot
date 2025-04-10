@@ -11,6 +11,9 @@ model = genai.GenerativeModel('models/gemini-1.5-pro-latest')
 if "chat_history" not in st.session_state or not isinstance(st.session_state.chat_history, list):
     st.session_state.chat_history = []
 
+if "last_prediction" not in st.session_state:
+    st.session_state.last_prediction = None
+
 # ----------------- App Title -----------------
 st.title("🧠 Alzheimer's Detection Chatbot by Anmol 24MAI0111")
 
@@ -22,6 +25,9 @@ if uploaded_image:
 
     # Dummy model prediction — replace with actual model output in production
     prediction = "VeryMildDemented"
+
+    # Store prediction for context retention
+    st.session_state.last_prediction = prediction
 
     # Response based on prediction
     if prediction == "VeryMildDemented":
@@ -69,8 +75,22 @@ if user_input:
         "content": user_input
     })
 
+    # Optional context injection based on user's input
+    if "last_prediction" in st.session_state and st.session_state.last_prediction:
+        keywords = ["stage", "my alzheimer", "which stage", "how severe"]
+        if any(kw in user_input.lower() for kw in keywords):
+            contextual_msg = (
+                f"Based on the MRI image you uploaded earlier, "
+                f"the model predicted: `{st.session_state.last_prediction}`.\n\n"
+            )
+            # Add this to Gemini history explicitly
+            gemini_history = [{"role": "user", "parts": [contextual_msg + user_input]}]
+        else:
+            gemini_history = [{"role": "user", "parts": [user_input]}]
+    else:
+        gemini_history = [{"role": "user", "parts": [user_input]}]
+
     # Prepare messages for Gemini
-    gemini_history = []
     for msg in st.session_state.chat_history:
         if isinstance(msg, dict) and "role" in msg and "content" in msg:
             gemini_role = "user" if msg["role"] == "user" else "model"
@@ -97,3 +117,4 @@ if st.session_state.chat_history:
             st.markdown(f"🧑‍💬 **You:** {content}")
         elif role == "bot":
             st.markdown(f"🤖 **Bot:** {content}")
+            
