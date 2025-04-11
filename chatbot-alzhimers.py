@@ -650,7 +650,7 @@ st.markdown(
     """
     <div style="text-align: center; margin-top: 50px;">
         <p>Developed by Anmol | 24MAI0111</p>
-        <p>Contact us at <a href="mailto:support@example.com">support@example.com</a></p>
+        <p>Contact us at <a href="mailto:anmolchaubey820@gmail.com">anmolchaubey820@gmail.com</a></p>
     </div>
     """,
     unsafe_allow_html=True
