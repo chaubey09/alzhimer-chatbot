@@ -5,7 +5,7 @@ import datetime
 import pandas as pd
 
 # ----------------- Configuration -----------------
-st.set_page_config(page_title="Alzheimer's Detection Chatbot", page_icon="🧠")
+st.set_page_config(page_title="Alzheimer's Detection Chatbot", page_icon="🤝")
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 model = genai.GenerativeModel('models/gemini-1.5-pro-latest')
 
